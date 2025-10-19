@@ -1,60 +1,160 @@
-import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useState } from "react";
 
+/* 🌙 Context */
+import { ThemeProvider } from "./contexts/ThemeContext";
 
-/* Pages */
+/* 📄 Pages */
 import Dashboard from "./pages/Dashboard";
 import CreateStore from "./pages/store/CreateStore";
 import UpdateStore from "./pages/store/UpdateStore";
 import ViewStore from "./pages/store/ViewStore";
-import Orders from "./pages/Orders";
-import Products from "./pages/Products";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
-import Login from "./pages/auth/login";
+import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
+
+/* 🧩 Components */
 import Header from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import Orders from "./pages/Orders";
+import Product from "./pages/Products";
+
+/* 🔒 Protected Route */
+function ProtectedRoute({ children }) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user && user.role === "admin" ? children : <Navigate to="/login" replace />;
+}
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(true); // sidebar expanded / collapsed
-
-  // margin for content depending on sidebar width
-  const contentMargin = isOpen ? "ml-64" : "ml-20";
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header full-width at top */}
-      <Header isOpen={isOpen} setIsOpen={setIsOpen} />
+    <ThemeProvider>
+      <div className="min-h-screen flex flex-col transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+        
+        {/* 🧭 Header + Sidebar only for logged in admin */}
+        {user?.role === "admin" && (
+          <>
+            <Header
+              isSidebarOpen={isSidebarOpen}
+              setIsSidebarOpen={setIsSidebarOpen}
+            />
+            <div className="flex flex-1 pt-16">
+              <Sidebar
+                isSidebarOpen={isSidebarOpen}
+                setIsSidebarOpen={setIsSidebarOpen}
+              />
+              
+              {/* Main Page Content */}
+              <main
+                className={`flex-1 p-6 transition-all duration-300 ${
+                  isSidebarOpen ? "ml-0 md:ml-64" : ""
+                }`}
+              >
+                <Routes>
+                  {/* 🏠 Dashboard */}
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/orders"
+                    element={
+                      <ProtectedRoute>
+                        < Orders/>
+                      </ProtectedRoute>
+                    }
+                  />
+                  
 
-      <div className="pt-16 flex">
-        {/* Sidebar fixed under header */}
-        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+                  {/* 🏪 Store Management */}
+                  <Route
+                    path="/store/create"
+                    element={
+                      <ProtectedRoute>
+                        <CreateStore />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/store/update"
+                    element={
+                      <ProtectedRoute>
+                        <UpdateStore />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/store/view"
+                    element={
+                      <ProtectedRoute>
+                        <ViewStore />
+                      </ProtectedRoute>
+                    }
+                  />
 
-        {/* Main content area */}
-        <main
-          className={`flex-1 transition-all duration-300 ${contentMargin} p-6`}
-        >
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+                  {/* 📦 Other Admin Pages */}
+                  <Route
+                    path="/products"
+                    element={
+                      <ProtectedRoute>
+                        <Product />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/users"
+                    element={
+                      <ProtectedRoute>
+                        <Users />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/settings"
+                    element={
+                      <ProtectedRoute>
+                        <Settings />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Routes>
+              </main>
+            </div>
+          </>
+        )}
 
-            {/* Store */}
-            <Route path="/store/create" element={<CreateStore />} />
-            <Route path="/store/update" element={<UpdateStore />} />
-            <Route path="/store/view" element={<ViewStore />} />
+        {/* 🔐 Public Routes (Login / Signup) */}
+        {!user && (
+          <main className="flex-1 flex items-center justify-center">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+               
+            </Routes>
+          </main>
+        )}
 
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/settings" element={<Settings />} />
-
-            {/* Auth (if used) */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-          </Routes>
-        </main>
+        {/* 🧭 Redirect root */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              user ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            }
+          />
+        </Routes>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }

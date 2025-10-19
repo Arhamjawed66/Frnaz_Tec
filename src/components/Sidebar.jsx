@@ -1,76 +1,107 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaStore, FaChevronDown, FaChevronRight, FaTruck, FaBox, FaUtensils } from "react-icons/fa";
+import {
+  FaHome,
+  FaStore,
+  FaTruck,
+  FaBox,
+  FaUtensils,
+  FaChevronDown,
+  FaChevronRight,
+  FaBars,
+} from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
-export default function Sidebar({ isOpen, setIsOpen }) {
+export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   const [storeOpen, setStoreOpen] = useState(false);
   const location = useLocation();
-
-  // classes
-  const base = isOpen ? "w-64" : "w-20";
-  const itemText = isOpen ? "ml-3" : "sr-only";
+  const { darkMode } = useTheme();
 
   const navItem = (to, icon, label) => (
-    <Link
-      to={to}
-      className={`flex items-center px-3 py-2 rounded-md transition ${location.pathname === to ? "font-semibold" : "font-normal"} hover:text-black`}
-    >
-      <span className="text-lg">{icon}</span>
-      <span className={itemText}>{label}</span>
-    </Link>
+    <div className="relative group">
+      <Link
+        to={to}
+        className={`flex items-center px-3 py-2 rounded-md transition-all duration-200 ${
+          location.pathname === to
+            ? darkMode
+              ? "bg-gray-700"
+              : "bg-blue-600"
+            : darkMode
+            ? "hover:bg-gray-700"
+            : "hover:bg-blue-600"
+        }`}
+      >
+        <span className="text-lg">{icon}</span>
+        {isSidebarOpen && <span className="ml-3 text-sm">{label}</span>}
+      </Link>
+
+      {!isSidebarOpen && (
+        <span
+          className="absolute left-full top-1/2 -translate-y-1/2 ml-2 
+          bg-blue-600 text-white text-[12px] px-2 py-1 rounded shadow opacity-0 
+          group-hover:opacity-100 transition"
+        >
+          {label}
+        </span>
+      )}
+    </div>
   );
 
   return (
     <aside
-      className={`fixed top-16 left-0 h-[calc(100vh-4rem)] ${base} bg-pink-600 text-white p-4 transition-all duration-300 z-40`}
-      aria-expanded={isOpen}
+      className={`fixed top-0 left-0 h-screen z-40 transition-all duration-300 ease-in-out shadow-md 
+      ${darkMode ? "bg-gray-900 text-white" : "bg-blue-500 text-white"}
+      ${isSidebarOpen ? "w-64" : "w-16"}`}
     >
-      {/* Header area inside sidebar */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-md bg-white/10 flex items-center justify-center font-bold">F</div>
-          {isOpen && <div><div className="text-lg font-bold">FRANZ FOOD</div><div className="text-xs text-white/80">Manage</div></div>}
-        </div>
+      {/* Toggle Button */}
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="p-2 mb-4 rounded hover:bg-white/20 w-full flex items-center justify-center md:justify-start transition-all duration-300"
+      >
+        <FaBars className="text-xl" />
+        {isSidebarOpen && <span className="ml-3 text-sm font-medium">Menu</span>}
+      </button>
 
-        {/* small collapse icon on sidebar */}
-        <button
-          onClick={() => setIsOpen((s) => !s)}
-          className="p-1 rounded hover:bg-white/10"
-          aria-label="Toggle sidebar"
-        >
-          {isOpen ? <FaChevronLeftIcon /> : <FaChevronRightIcon />}
-        </button>
-      </div>
-
-      {/* Menu */}
-      <nav className="space-y-1">
+      {/* Menu Items */}
+      <nav className="space-y-2">
         {navItem("/dashboard", <FaHome />, "Dashboard")}
 
-        {/* Store with push-down submenu */}
-        <div>
+        {/* Store Dropdown */}
+        <div className="relative group">
           <button
-            onClick={() => setStoreOpen((s) => !s)}
-            onMouseEnter={() => setStoreOpen(true)}
-            onMouseLeave={() => setStoreOpen(false)}
-            className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:text-black transition"
+            onClick={() => setStoreOpen(!storeOpen)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-white/20 transition-all duration-200"
           >
-            <span className="flex items-center gap-3">
-              <FaStore />
-              <span className={itemText}>Store</span>
+            <span className="flex items-center">
+              <FaStore className="text-lg" />
+              {isSidebarOpen && <span className="ml-3 text-sm">Store</span>}
             </span>
-            {isOpen && (storeOpen ? <FaChevronDown /> : <FaChevronRight />)}
+            {isSidebarOpen && (storeOpen ? <FaChevronDown /> : <FaChevronRight />)}
           </button>
 
-          {/* push-down area */}
-          <div
-            className={`overflow-hidden transition-all duration-300 ${storeOpen ? "max-h-40" : "max-h-0"}`}
-            onMouseEnter={() => setStoreOpen(true)}
-            onMouseLeave={() => setStoreOpen(false)}
-          >
-            <Link to="/store/create" className="block pl-10 py-2 hover:text-black">Create Store</Link>
-            <Link to="/store/update" className="block pl-10 py-2 hover:text-black">Update Store</Link>
-            <Link to="/store/view" className="block pl-10 py-2 hover:text-black">View Store</Link>
-          </div>
+          {!isSidebarOpen && (
+            <span
+              className="absolute left-full top-1/2 -translate-y-1/2 ml-2
+              bg-blue-600 text-white text-[12px] px-2 py-1 rounded shadow opacity-0
+              group-hover:opacity-100 transition"
+            >
+              Store
+            </span>
+          )}
+
+          {isSidebarOpen && storeOpen && (
+            <div className="ml-8 mt-1 space-y-1">
+              <Link to="/store/create" className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm">
+                Create Store
+              </Link>
+              <Link to="/store/update" className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm">
+                Update Store
+              </Link>
+              <Link to="/store/view" className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm">
+                View Store
+              </Link>
+            </div>
+          )}
         </div>
 
         {navItem("/orders", <FaTruck />, "Orders")}
@@ -78,29 +109,6 @@ export default function Sidebar({ isOpen, setIsOpen }) {
         {navItem("/users", <FaUtensils />, "Users")}
         {navItem("/settings", <FaStore />, "Settings")}
       </nav>
-
-      {/* Footer */}
-      <div className="mt-auto pt-4 border-t border-white/10">
-        <div className="flex items-center gap-3">
-         
-        </div>
-      </div>
     </aside>
-  );
-}
-
-/* small helper icons (so we don't import more libs) */
-function FaChevronLeftIcon() {
-  return (
-    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M15 18l-6-6 6-6"></path>
-    </svg>
-  );
-}
-function FaChevronRightIcon() {
-  return (
-    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M9 18l6-6-6-6"></path>
-    </svg>
   );
 }

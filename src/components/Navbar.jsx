@@ -1,87 +1,115 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaMotorcycle, FaBox, FaShoppingCart, FaUser, FaSearch, FaBars } from "react-icons/fa";
+import {
+  FaBars,
+  FaSearch,
+  FaShoppingCart,
+  FaUser,
+  FaSun,
+  FaMoon,
+} from "react-icons/fa";
+import { useTheme } from "../contexts/ThemeContext";
 
-export default function Header({ isOpen, setIsOpen }) {
-  const [accountOpen, setAccountOpen] = useState(false); // ✅ Added state
+export default function Header({ isSidebarOpen, setIsSidebarOpen }) {
+  const [accountOpen, setAccountOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const { darkMode, toggleTheme } = useTheme();
+
+  // close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setAccountOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <header className="w-full shadow-md sticky top-0 z-50 bg-white/90 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        
-        {/* Left: logo + toggle */}
+    <header
+      className={`
+        ${darkMode ? "bg-gray-900/90 text-white" : "bg-blue-500 text-white"} 
+        backdrop-blur-sm`}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 transition-all">
+        {/* Sidebar Toggle */}
+        <FaBars
+          className="text-xl cursor-pointer hover:text-blue-500 transition"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        />
+
+        {/* Dynamic Logo */}
+        <Link
+          to="/"
+          className={`font-bold tracking-wide text-2xl transition-all duration-500 mr-30
+            ${isSidebarOpen ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"}
+            ${darkMode ? "text-blue-400" : "text-white"}`}
+        >
+          FRANZ FOOD
+        </Link>
+
+        {/* Right Section */}
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => setIsOpen((s) => !s)}
-            className="p-2 rounded hover:bg-gray-100 text-gray-700"
-            aria-label="Toggle sidebar"
-          >
-            <FaBars />
-          </button>
-
-          <Link to="/" className="text-2xl font-bold text-pink-600 tracking-wide">
-            FRANZ FOOD
-          </Link>
-        </div>
-
-        {/* Center nav (desktop) */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Link to="/delivery" className="flex items-center gap-2 text-gray-700 hover:text-pink-600 transition">
-            <FaMotorcycle /> Delivery
-          </Link>
-          <Link to="/pickup" className="flex items-center gap-2 text-gray-700 hover:text-pink-600 transition">
-            <FaBox /> Pickup
-          </Link>
-          <Link to="/store/view" className="flex items-center gap-2 text-gray-700 hover:text-pink-600 transition">
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M3 4v2h18V4H3zm2 4v12h6V8H5zm8 0v12h6V8h-6z"/></svg>
-            Shops
-          </Link>
-          <Link to="/caterers" className="flex items-center gap-2 text-gray-700 hover:text-pink-600 transition">
-            Caterers
-          </Link>
-        </nav>
-
-        {/* Right side */}
-        <div className="hidden md:flex items-center gap-5">
-          <div className="relative">
+          {/* Search */}
+          <div className="relative hidden md:block">
             <input
               type="text"
               placeholder="Search..."
-              className="border rounded-full pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className={`border rounded-full pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:ring-2 
+              ${darkMode
+                ? "bg-gray-800 border-gray-700 text-white focus:ring-blue-400"
+                : "bg-white border-gray-300 focus:ring-blue-500"
+              }`}
             />
             <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           </div>
 
-          <Link to="/cart" className="flex items-center gap-2 text-gray-700 hover:text-pink-600 transition">
+          <Link
+            to="/cart"
+            className="flex items-center gap-2 hover:text-blue-500 transition"
+          >
             <FaShoppingCart /> Cart
           </Link>
 
-          {/* Account Button */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setAccountOpen(!accountOpen)}
+              className="flex items-center gap-2 hover:text-blue-500 transition"
+            >
+              <FaUser /> Account
+            </button>
+
+            {accountOpen && (
+              <div
+                className={`absolute right-0 mt-2 w-32 shadow-md rounded p-2 z-50
+                ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"}`}
+              >
+                <Link
+                  to="/login"
+                  className="block py-1 px-2 rounded hover:bg-blue-500 hover:text-white transition"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="block py-1 px-2 rounded hover:bg-blue-500 hover:text-white transition"
+                >
+                  Signup
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Theme Toggle */}
           <button
-            onClick={() => setAccountOpen((prev) => !prev)}
-            className="flex items-center gap-2 text-gray-700 hover:text-pink-600 transition"
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
           >
-            <FaUser /> Account
+            {darkMode ? <FaSun /> : <FaMoon />}
           </button>
-
-          {/* Account Dropdown */}
-          {accountOpen && (
-            <div className="absolute top-14 right-10 bg-white shadow-md rounded p-3 space-y-2">
-              <Link to="/login" className="block text-gray-700 hover:text-pink-600 transition">Login</Link>
-              <Link to="/signup" className="block text-gray-700 hover:text-pink-600 transition">Signup</Link>
-            </div>
-          )}
         </div>
-
-        {/* Mobile Menu Placeholder */}
-        <div className="md:hidden">
-          {/* Could add mobile menu here if needed */}
-        </div>
-
       </div>
     </header>
   );
 }
-
-  
-
