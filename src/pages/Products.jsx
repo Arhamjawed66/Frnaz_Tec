@@ -85,7 +85,7 @@ export default function Product() {
   ];
 
   return (
-    <div className="ml-20  min-h-screen bg-gray-50 dark:bg-gray-900 ">
+    <div className="ml-15  min-h-screen bg-gray-50 dark:bg-gray-900 ">
       
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
