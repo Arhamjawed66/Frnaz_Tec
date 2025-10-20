@@ -7,7 +7,7 @@ export default function Orders() {
       customer: "Ali Khan",
       date: "2025-10-18",
       total: "$245",
-      status: "Delivered",
+      status: "Deliver",
     },
     {
       id: "ORD-1002",
