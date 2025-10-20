@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaBars,
   FaSearch,
@@ -7,6 +7,7 @@ import {
   FaUser,
   FaSun,
   FaMoon,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { useTheme } from "../contexts/ThemeContext";
 
@@ -14,8 +15,18 @@ export default function Header({ isSidebarOpen, setIsSidebarOpen }) {
   const [accountOpen, setAccountOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { darkMode, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
-  // close dropdown when clicking outside
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // ✅ Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+    window.location.reload();
+  };
+
+  // ✅ close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -35,7 +46,7 @@ export default function Header({ isSidebarOpen, setIsSidebarOpen }) {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3 transition-all">
         {/* Sidebar Toggle */}
         <FaBars
-          className="text-xl cursor-pointer hover:text-blue-500 transition"
+          className="text-xl cursor-pointer hover:text-blue-300 transition"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         />
 
@@ -57,46 +68,62 @@ export default function Header({ isSidebarOpen, setIsSidebarOpen }) {
               type="text"
               placeholder="Search..."
               className={`border rounded-full pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:ring-2 
-              ${darkMode
-                ? "bg-gray-800 border-gray-700 text-white focus:ring-blue-400"
-                : "bg-white border-gray-300 focus:ring-blue-500"
+              ${
+                darkMode
+                  ? "bg-gray-800 border-gray-700 text-white focus:ring-blue-400"
+                  : "bg-gray-300 border-gray-300 focus:ring-white"
               }`}
             />
-            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-white" />
           </div>
 
+          {/* Cart */}
           <Link
             to="/cart"
-            className="flex items-center gap-2 hover:text-blue-500 transition"
+            className="flex items-center gap-2 text-white dark:text-gray-200 hover:underline hover:underline-offset-4 transition-all duration-200"
           >
             <FaShoppingCart /> Cart
           </Link>
 
+          {/* Account / Logout */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setAccountOpen(!accountOpen)}
-              className="flex items-center gap-2 hover:text-blue-500 transition"
+              className="flex items-center gap-2 text-white dark:text-gray-200 hover:underline hover:underline-offset-4 transition-all duration-200"
             >
               <FaUser /> Account
             </button>
 
             {accountOpen && (
               <div
-                className={`absolute right-0 mt-2 w-32 shadow-md rounded p-2 z-50
+                className={`absolute right-0 mt-2 w-36 shadow-md rounded p-2 z-50
                 ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-800"}`}
               >
-                <Link
-                  to="/login"
-                  className="block py-1 px-2 rounded hover:bg-blue-500 hover:text-white transition"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="block py-1 px-2 rounded hover:bg-blue-500 hover:text-white transition"
-                >
-                  Signup
-                </Link>
+                {/* ✅ Show Login/Signup only if NOT logged in */}
+                {!user ? (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block py-1 px-2 rounded hover:bg-blue-500 hover:text-white transition"
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      to="/signup"
+                      className="block py-1 px-2 rounded hover:bg-blue-500 hover:text-white transition"
+                    >
+                      Signup
+                    </Link>
+                  </>
+                ) : (
+                  /* ✅ Show Logout if logged in */
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 w-full py-1 px-2 rounded hover:bg-red-500 hover:text-white transition text-left"
+                  >
+                    <FaSignOutAlt /> Logout
+                  </button>
+                )}
               </div>
             )}
           </div>

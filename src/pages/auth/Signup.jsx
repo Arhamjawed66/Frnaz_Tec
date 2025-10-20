@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useTheme } from "../../contexts/ThemeContext";
+import { Link } from "react-router-dom";
 
-export default function Signup() {
+export default function SignupFrom() {
   const { darkMode } = useTheme();
   const [formData, setFormData] = useState({
     name: "",
@@ -82,7 +83,7 @@ export default function Signup() {
               <input
                 type="text"
                 id="name"
-                placeholder="John Doe"
+                placeholder="Frnaz Food"
                 value={formData.name}
                 onChange={handleChange}
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 ${
@@ -184,9 +185,11 @@ export default function Signup() {
               }`}
             >
               Already have an account?{" "}
-              <a href="/login" className="font-medium text-blue-600 hover:underline">
-                Sign in
-              </a>
+              <Link to="/login" className="font-medium text-blue-600 hover:underline">
+               Log IN 
+              </Link>
+              
+              
             </p>
           </form>
         </div>

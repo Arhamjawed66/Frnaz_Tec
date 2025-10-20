@@ -11,14 +11,14 @@ import UpdateStore from "./pages/store/UpdateStore";
 import ViewStore from "./pages/store/ViewStore";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
-import Login from "./pages/auth/Login";
-import Signup from "./pages/auth/Signup";
+import Orders from "./pages/Orders";
+import Product from "./pages/Products";
+import LoginFrom from "./pages/auth/login";
+import SignupFrom from "./pages/auth/signup";
 
 /* 🧩 Components */
 import Header from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import Orders from "./pages/Orders";
-import Product from "./pages/Products";
 
 /* 🔒 Protected Route */
 function ProtectedRoute({ children }) {
@@ -33,8 +33,8 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen flex flex-col transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-        
-        {/* 🧭 Header + Sidebar only for logged in admin */}
+
+        {/* ✅ Header + Sidebar only for admin */}
         {user?.role === "admin" && (
           <>
             <Header
@@ -46,102 +46,38 @@ export default function App() {
                 isSidebarOpen={isSidebarOpen}
                 setIsSidebarOpen={setIsSidebarOpen}
               />
-              
-              {/* Main Page Content */}
               <main
-                className={`flex-1 p-6 transition-all duration-300 ${
-                  isSidebarOpen ? "ml-0 md:ml-64" : ""
-                }`}
+                className={`flex-1 p-6 transition-all duration-300 ${isSidebarOpen ? "ml-0 md:ml-64" : ""
+                  }`}
               >
                 <Routes>
-                  {/* 🏠 Dashboard */}
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/orders"
-                    element={
-                      <ProtectedRoute>
-                        < Orders/>
-                      </ProtectedRoute>
-                    }
-                  />
-                  
+                  <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                  <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
+                  <Route path="/store/create" element={<ProtectedRoute><CreateStore /></ProtectedRoute>} />
+                  <Route path="/store/update" element={<ProtectedRoute><UpdateStore /></ProtectedRoute>} />
+                  <Route path="/store/view" element={<ProtectedRoute><ViewStore /></ProtectedRoute>} />
+                  <Route path="/products" element={<ProtectedRoute><Product /></ProtectedRoute>} />
+                  <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
+                  <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
 
-                  {/* 🏪 Store Management */}
-                  <Route
-                    path="/store/create"
-                    element={
-                      <ProtectedRoute>
-                        <CreateStore />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/store/update"
-                    element={
-                      <ProtectedRoute>
-                        <UpdateStore />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/store/view"
-                    element={
-                      <ProtectedRoute>
-                        <ViewStore />
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* 📦 Other Admin Pages */}
-                  <Route
-                    path="/products"
-                    element={
-                      <ProtectedRoute>
-                        <Product />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/users"
-                    element={
-                      <ProtectedRoute>
-                        <Users />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <ProtectedRoute>
-                        <Settings />
-                      </ProtectedRoute>
-                    }
-                  />
                 </Routes>
               </main>
             </div>
           </>
         )}
 
-        {/* 🔐 Public Routes (Login / Signup) */}
+        {/* ✅ Auth Pages for non-logged in users */}
+
+
         {!user && (
           <main className="flex-1 flex items-center justify-center">
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-               
+              <Route path="/login" element={<LoginFrom />} />
+              <Route path="/signup" element={<SignupFrom />} />
             </Routes>
           </main>
         )}
-
-        {/* 🧭 Redirect root */}
+        {/* ✅ Default redirect */}
         <Routes>
           <Route
             path="/"

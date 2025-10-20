@@ -9,7 +9,7 @@ const sanitizeInput = (value) =>
     .replace(/[^\w\s@.-]/gi, "")
     .trim();
 
-export default function Login() {
+export default function LoginFrom() {
   const { darkMode } = useTheme();
   const navigate = useNavigate();
 
@@ -32,7 +32,7 @@ export default function Login() {
     if (cleanUsername === "admin123@gmail.com" && cleanPassword === "12345") {
       localStorage.setItem(
         "user",
-        JSON.stringify({ role: "admin", name: "Abdul Jawed" })
+        JSON.stringify({ role: "admin", name: "admin" })
       );
       setIsLoggedIn(true);
       navigate("/dashboard");
@@ -73,7 +73,7 @@ export default function Login() {
 
           <button
             onClick={handleLogout}
-            className="mt-6 w-full py-3 px-5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all relative z-10"
+            className="mt-6 w-full py-3 px-5 bg-green text-white font-medium rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition-all relative z-10"
           >
             Logout
           </button>
