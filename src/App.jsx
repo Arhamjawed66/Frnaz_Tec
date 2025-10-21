@@ -92,6 +92,7 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<LoginFrom />} />
               <Route path="/register" element={<RegisterFrom />} />
+              <Route path="/signup" element={<RegisterFrom />} />
             </Routes>
           </main>
         )}
