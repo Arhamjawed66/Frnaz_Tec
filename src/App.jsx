@@ -15,7 +15,7 @@ import Orders from "./pages/Orders";
 import Product from "./pages/Products";
 import LoginFrom from "./pages/auth/login";
 // import SignupFrom from "./pages/auth/signup";
-import SignupForm from './pages/auth/signup'
+// import SignupForm from './pages/auth/signup'
 
 /* 🧩 Components */
 import Header from "./components/Navbar";
@@ -74,7 +74,7 @@ export default function App() {
           <main className="flex-1 flex items-center justify-center">
             <Routes>
               <Route path="/login" element={<LoginFrom />} />
-              <Route path="/signup" element={<SignupForm />} />
+              {/* <Route path="/signup" element={<SignupForm />} /> */}
             </Routes>
           </main>
         )}
