@@ -19,11 +19,14 @@ import RegisterFrom from "./pages/auth/register";
 /* 🧩 Components */
 import Header from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import Update_Category from "./pages/category/update_catagory";
+import Create_Category from "./pages/category/Create_Category";
+import View_Category from "./pages/category/View_Category";
 
 /* 🔒 Protected Route */
 function ProtectedRoute({ children }) {
   const user = JSON.parse(localStorage.getItem("user"));
-  return user && user.role === "admin" ? children : <Navigate to="/login" replace />;
+  return user && user.role === "admin" ? children :<Navigate to="/login" replace />;
 }
 
 export default function App() {
@@ -77,6 +80,11 @@ export default function App() {
                   <Route path="/store/create" element={<ProtectedRoute><CreateStore /></ProtectedRoute>} />
                   <Route path="/store/update" element={<ProtectedRoute><UpdateStore /></ProtectedRoute>} />
                   <Route path="/store/view" element={<ProtectedRoute><ViewStore /></ProtectedRoute>} />
+                  <Route path="/category/update" element={<ProtectedRoute>< Update_Category /></ProtectedRoute>} />
+                  <Route path="/category/create" element={<ProtectedRoute>< Create_Category /></ProtectedRoute>} />
+                  <Route path="/category/view" element={<ProtectedRoute>< View_Category /></ProtectedRoute>} />
+
+
                   <Route path="/products" element={<ProtectedRoute><Product /></ProtectedRoute>} />
                   <Route path="/users" element={<ProtectedRoute><Users /></ProtectedRoute>} />
                   <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />

@@ -10,17 +10,29 @@ import {
   FaChevronRight,
   FaBars,
   FaTimes,
+  FaListAlt, // Category icon
 } from "react-icons/fa";
 import { useTheme } from "../contexts/ThemeContext";
 
 export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
   const [storeOpen, setStoreOpen] = useState(false);
+  const [categoryOpen, setCategoryOpen] = useState(false);
   const location = useLocation();
   const { darkMode } = useTheme();
 
   const handleLinkClick = () => {
-    // Close sidebar on mobile after link click
     if (window.innerWidth < 768) setIsSidebarOpen(false);
+  };
+
+  // 🧠 Toggle functions with auto-close logic
+  const toggleStore = () => {
+    setStoreOpen(!storeOpen);
+    if (!storeOpen) setCategoryOpen(false);
+  };
+
+  const toggleCategory = () => {
+    setCategoryOpen(!categoryOpen);
+    if (!categoryOpen) setStoreOpen(false);
   };
 
   const navItem = (to, icon, label) => (
@@ -42,7 +54,6 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
         {isSidebarOpen && <span className="ml-3 text-sm">{label}</span>}
       </Link>
 
-      {/* Tooltip when sidebar collapsed */}
       {!isSidebarOpen && (
         <span
           className="absolute left-full top-1/2 -translate-y-1/2 ml-2 
@@ -57,7 +68,7 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
 
   return (
     <>
-      {/* Overlay (Mobile) */}
+      {/* Overlay for mobile */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-30 md:hidden"
@@ -96,12 +107,13 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
         <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-2 custom-scrollbar">
           {navItem("/dashboard", <FaHome />, "Dashboard")}
 
-          {/* Store Dropdown */}
-          <div className="relative group">
+          {/* STORE DROPDOWN */}
+          <div className="relative">
             <button
-              onClick={() => setStoreOpen(!storeOpen)}
-              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200
-              ${darkMode ? "hover:bg-gray-800" : "hover:bg-blue-600/70"}`}
+              onClick={toggleStore}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200 ${
+                darkMode ? "hover:bg-gray-800" : "hover:bg-blue-600/70"
+              }`}
             >
               <span className="flex items-center">
                 <FaStore className="text-lg" />
@@ -143,6 +155,59 @@ export default function Sidebar({ isSidebarOpen, setIsSidebarOpen }) {
                   className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm"
                 >
                   View Store
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* CATEGORY DROPDOWN */}
+          <div className="relative">
+            <button
+              onClick={toggleCategory}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200 ${
+                darkMode ? "hover:bg-gray-800" : "hover:bg-blue-600/70"
+              }`}
+            >
+              <span className="flex items-center">
+                <FaListAlt className="text-lg" />
+                {isSidebarOpen && <span className="ml-3 text-sm">Category</span>}
+              </span>
+              {isSidebarOpen &&
+                (categoryOpen ? <FaChevronDown /> : <FaChevronRight />)}
+            </button>
+
+            {!isSidebarOpen && (
+              <span
+                className="absolute left-full top-1/2 -translate-y-1/2 ml-2
+                bg-blue-600 text-white text-[12px] px-2 py-1 rounded shadow opacity-0
+                group-hover:opacity-100 transition"
+              >
+                Category
+              </span>
+            )}
+
+            {isSidebarOpen && categoryOpen && (
+              <div className="ml-8 mt-1 space-y-1">
+                <Link
+                  to="/category/create"
+                  onClick={handleLinkClick}
+                  className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm"
+                >
+                  Create Category
+                </Link>
+                <Link
+                  to="/category/update"
+                  onClick={handleLinkClick}
+                  className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm"
+                >
+                  Update Category
+                </Link>
+                <Link
+                  to="/category/view"
+                  onClick={handleLinkClick}
+                  className="block hover:bg-white/20 px-3 py-1.5 rounded-md text-sm"
+                >
+                  View Category
                 </Link>
               </div>
             )}
