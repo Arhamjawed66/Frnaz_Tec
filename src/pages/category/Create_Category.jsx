@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 
-const Create_Category = () => {
+export default function Create_Category() {
+  const { darkMode } = useTheme();
+
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const [status, setStatus] = useState("active");
@@ -12,25 +15,52 @@ const Create_Category = () => {
       description: categoryDescription,
       status,
     });
-    alert("Category Created Successfully!");
+    alert("✅ Category Created Successfully!");
     setCategoryName("");
     setCategoryDescription("");
     setStatus("active");
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 px-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-        <h2 className="text-2xl font-semibold text-center mb-6 text-gray-800 dark:text-gray-100">
-          Create New Category
-        </h2>
+    <div
+      className={`flex items-center justify-center min-h-screen px-4 py-6 transition-all duration-500 ${
+        darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-800"
+      }`}
+    >
+      <div
+        className={`w-full max-w-lg rounded-2xl shadow-xl border p-8 transition-all duration-500 ${
+          darkMode
+            ? "bg-gray-800 border-gray-700"
+            : "bg-white border-gray-200"
+        }`}
+      >
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h2
+            className={`text-3xl font-bold tracking-tight ${
+              darkMode ? "text-blue-400" : "text-blue-600"
+            }`}
+          >
+            Create New Category
+          </h2>
+          <p
+            className={`text-sm mt-2 ${
+              darkMode ? "text-gray-400" : "text-gray-500"
+            }`}
+          >
+            Add a new product category to your store
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-5">
           {/* Category Name */}
           <div>
             <label
               htmlFor="categoryName"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-blue-300" : "text-blue-700"
+              }`}
             >
               Category Name
             </label>
@@ -40,9 +70,11 @@ const Create_Category = () => {
               value={categoryName}
               onChange={(e) => setCategoryName(e.target.value)}
               placeholder="Enter category name"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 
-                         dark:text-gray-100 placeholder-gray-400"
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  : "bg-white border-gray-300 text-gray-800 placeholder-gray-400"
+              }`}
               required
             />
           </div>
@@ -51,7 +83,9 @@ const Create_Category = () => {
           <div>
             <label
               htmlFor="categoryDescription"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-blue-300" : "text-blue-700"
+              }`}
             >
               Description
             </label>
@@ -61,9 +95,11 @@ const Create_Category = () => {
               value={categoryDescription}
               onChange={(e) => setCategoryDescription(e.target.value)}
               placeholder="Write short description..."
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 
-                         dark:text-gray-100 placeholder-gray-400 resize-none"
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                  : "bg-white border-gray-300 text-gray-800 placeholder-gray-400"
+              }`}
             ></textarea>
           </div>
 
@@ -71,7 +107,9 @@ const Create_Category = () => {
           <div>
             <label
               htmlFor="status"
-              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+              className={`block text-sm font-medium mb-1 ${
+                darkMode ? "text-blue-300" : "text-blue-700"
+              }`}
             >
               Status
             </label>
@@ -79,9 +117,11 @@ const Create_Category = () => {
               id="status"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 
-                         dark:text-gray-100"
+              className={`w-full px-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-gray-800"
+              }`}
             >
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -91,8 +131,7 @@ const Create_Category = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg 
-                       transition-all duration-200"
+            className="w-full mt-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition-all shadow-md hover:shadow-lg"
           >
             Create Category
           </button>
@@ -100,6 +139,4 @@ const Create_Category = () => {
       </div>
     </div>
   );
-};
-
-export default Create_Category;
+}

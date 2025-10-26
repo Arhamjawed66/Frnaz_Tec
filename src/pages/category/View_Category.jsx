@@ -1,246 +1,123 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useTheme } from "../../contexts/ThemeContext";
 
-const View_Category = () => {
-  const [categories, setCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState("all");
+export default function View_Category() {
+  const { darkMode } = useTheme();
 
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [editedName, setEditedName] = useState("");
-  const [editedDescription, setEditedDescription] = useState("");
-  const [editedStatus, setEditedStatus] = useState("");
-
-  // Dummy Data
-  useEffect(() => {
-    setCategories([
-      { id: 1, name: "Electronics", description: "Devices and gadgets", status: "Active" },
-      { id: 2, name: "Clothing", description: "Men and women fashion", status: "Inactive" },
-      { id: 3, name: "Groceries", description: "Daily household items", status: "Active" },
-      { id: 4, name: "Furniture", description: "Home and office furniture", status: "Active" },
-    ]);
-  }, []);
-
-  // Filtered categories
-  const filteredCategories = categories.filter((cat) => {
-    const matchesSearch = cat.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      filterStatus === "all" || cat.status.toLowerCase() === filterStatus.toLowerCase();
-    return matchesSearch && matchesStatus;
-  });
-
-  // Edit modal open
-  const handleEdit = (category) => {
-    setSelectedCategory(category);
-    setEditedName(category.name);
-    setEditedDescription(category.description);
-    setEditedStatus(category.status);
-    setEditModalOpen(true);
-  };
-
-  // Delete modal open
-  const handleDelete = (category) => {
-    setSelectedCategory(category);
-    setDeleteModalOpen(true);
-  };
-
-  // Save edit
-  const handleSaveEdit = () => {
-    setCategories((prev) =>
-      prev.map((cat) =>
-        cat.id === selectedCategory.id
-          ? { ...cat, name: editedName, description: editedDescription, status: editedStatus }
-          : cat
-      )
-    );
-    setEditModalOpen(false);
-  };
-
-  // Confirm delete
-  const confirmDelete = () => {
-    setCategories((prev) => prev.filter((cat) => cat.id !== selectedCategory.id));
-    setDeleteModalOpen(false);
-  };
+  const categories = [
+    {
+      id: 1,
+      name: "Electronics",
+      description: "Gadgets, accessories and smart devices.",
+      image: "https://cdn-icons-png.flaticon.com/512/1040/1040233.png",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Fashion",
+      description: "Clothing, shoes and accessories.",
+      image: "https://cdn-icons-png.flaticon.com/512/892/892458.png",
+      status: "Active",
+    },
+    {
+      id: 3,
+      name: "Furniture",
+      description: "Home and office furniture collection.",
+      image: "https://cdn-icons-png.flaticon.com/512/1946/1946488.png",
+      status: "Inactive",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300 px-6 py-10">
-      <div className="max-w-5xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6">
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
+    <div
+      className={`min-h-screen px-6 py-8 transition-all duration-500 ${
+        darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-800"
+      }`}
+    >
+      {/* Header */}
+      <div className="text-center mb-10">
+        <h2
+          className={`text-3xl font-bold ${
+            darkMode ? "text-blue-400" : "text-blue-600"
+          }`}
+        >
           View All Categories
         </h2>
-
-        {/* Search & Filter */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-          <input
-            type="text"
-            placeholder="Search category..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
-                       focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
-          />
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full sm:w-1/4 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
-                       focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100"
-          >
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-
-        {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300 dark:border-gray-700 rounded-lg">
-            <thead>
-              <tr className="bg-blue-600 text-white text-sm">
-                <th className="py-3 px-4 text-left">#</th>
-                <th className="py-3 px-4 text-left">Category Name</th>
-                <th className="py-3 px-4 text-left">Description</th>
-                <th className="py-3 px-4 text-left">Status</th>
-                <th className="py-3 px-4 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCategories.length > 0 ? (
-                filteredCategories.map((cat, index) => (
-                  <tr
-                    key={cat.id}
-                    className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
-                  >
-                    <td className="py-2 px-4 text-gray-700 dark:text-gray-200">{index + 1}</td>
-                    <td className="py-2 px-4 font-medium text-gray-800 dark:text-gray-100">
-                      {cat.name}
-                    </td>
-                    <td className="py-2 px-4 text-gray-600 dark:text-gray-300">
-                      {cat.description}
-                    </td>
-                    <td
-                      className={`py-2 px-4 font-medium ${
-                        cat.status === "Active"
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-red-500 dark:text-red-400"
-                      }`}
-                    >
-                      {cat.status}
-                    </td>
-                    <td className="py-2 px-4 text-center">
-                      <button
-                        onClick={() => handleEdit(cat)}
-                        className="text-blue-600 hover:underline dark:text-blue-400 mr-3"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(cat)}
-                        className="text-red-600 hover:underline dark:text-red-400"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="5"
-                    className="py-4 text-center text-gray-500 dark:text-gray-400"
-                  >
-                    No categories found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+        <p
+          className={`mt-2 text-sm ${
+            darkMode ? "text-gray-400" : "text-gray-500"
+          }`}
+        >
+          Overview of all product categories with quick status insights
+        </p>
       </div>
 
-      {/* Edit Modal */}
-      {editModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-96">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-              Edit Category
-            </h3>
+      {/* Category Cards */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {categories.map((cat) => (
+          <div
+            key={cat.id}
+            className={`rounded-2xl p-6 shadow-lg border transition-all duration-500 hover:scale-[1.02] ${
+              darkMode
+                ? "bg-gray-800 border-gray-700 hover:border-blue-500"
+                : "bg-white border-gray-200 hover:border-blue-400"
+            }`}
+          >
+            {/* Top Section */}
+            <div className="flex items-center justify-between mb-4">
+              <h3
+                className={`text-xl font-semibold ${
+                  darkMode ? "text-blue-300" : "text-blue-700"
+                }`}
+              >
+                {cat.name}
+              </h3>
+              <span
+                className={`text-xs font-medium px-3 py-1 rounded-full ${
+                  cat.status === "Active"
+                    ? darkMode
+                      ? "bg-green-700 text-green-200"
+                      : "bg-green-100 text-green-700"
+                    : darkMode
+                    ? "bg-red-700 text-red-200"
+                    : "bg-red-100 text-red-700"
+                }`}
+              >
+                {cat.status}
+              </span>
+            </div>
 
-            <div className="space-y-3">
-              <input
-                type="text"
-                value={editedName}
-                onChange={(e) => setEditedName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
-                           dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            {/* Image */}
+            <div className="flex justify-center mb-4">
+              <img
+                src={cat.image}
+                alt={cat.name}
+                className="w-24 h-24 object-contain rounded-lg"
               />
-              <textarea
-                value={editedDescription}
-                onChange={(e) => setEditedDescription(e.target.value)}
-                rows="3"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
-                           dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              ></textarea>
-              <select
-                value={editedStatus}
-                onChange={(e) => setEditedStatus(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
-                           dark:bg-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option>Active</option>
-                <option>Inactive</option>
-              </select>
             </div>
 
-            <div className="flex justify-end mt-5 gap-3">
-              <button
-                onClick={() => setEditModalOpen(false)}
-                className="px-4 py-2 rounded-lg bg-gray-300 dark:bg-gray-600 dark:text-gray-200"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSaveEdit}
-                className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Modal */}
-      {deleteModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 w-80 text-center">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-              Confirm Delete
-            </h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              Are you sure you want to delete{" "}
-              <span className="font-medium text-red-500">{selectedCategory?.name}</span>?
+            {/* Description */}
+            <p
+              className={`text-sm mb-4 leading-relaxed ${
+                darkMode ? "text-gray-300" : "text-gray-600"
+              }`}
+            >
+              {cat.description}
             </p>
-            <div className="flex justify-center gap-3">
-              <button
-                onClick={() => setDeleteModalOpen(false)}
-                className="px-4 py-2 rounded-lg bg-gray-300 dark:bg-gray-600 dark:text-gray-200"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={confirmDelete}
-                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
-              >
-                Delete
-              </button>
+
+            {/* Mini chart bar / stats look */}
+            <div className="w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+              <div
+                className={`h-2 rounded-full transition-all ${
+                  cat.status === "Active"
+                    ? "bg-blue-500 w-3/4"
+                    : "bg-gray-500 w-1/3"
+                }`}
+              ></div>
             </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
     </div>
   );
-};
-
-export default View_Category;
-
+}
