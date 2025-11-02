@@ -1,27 +1,9 @@
 import React from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-} from "recharts";
 import { useTheme } from "../contexts/ThemeContext";
+import ImageSlider from "../components/ImageSlider";
 
-export default function Dashboard({ isSidebarOpen }) {
+export default function Dashboard() {
   const { darkMode } = useTheme();
-
-  const data = [
-    { month: "Jan", sales: 4000 },
-    { month: "Feb", sales: 3000 },
-    { month: "Mar", sales: 2000 },
-    { month: "Apr", sales: 2780 },
-    { month: "May", sales: 1890 },
-    { month: "Jun", sales: 2390 },
-    { month: "Jul", sales: 3490 },
-  ];
 
   const orders = [
     { id: "#1001", customer: "John", product: "Keyboard", status: "Completed", amount: "$99" },
@@ -31,16 +13,20 @@ export default function Dashboard({ isSidebarOpen }) {
 
   return (
     <div
-      className={`transition-all duration-300 ease-in-out min-h-screen p-4 sm:p-6
-        ${isSidebarOpen ? "md:ml-64" : "ml-0"}
-        ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}
-      `}
+      className={`min-h-screen p-6 transition-all duration-300 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+      }`}
     >
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+      <div className="max-w-6xl mx-auto space-y-8">
+
+        {/* ✅ Image Slider on Top */}
+        <ImageSlider />
+
+        {/* Header */}
+        <h1 className="text-3xl font-semibold">Dashboard</h1>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { title: "Users", value: "1,204" },
             { title: "Orders", value: "342" },
@@ -49,39 +35,78 @@ export default function Dashboard({ isSidebarOpen }) {
           ].map((item, i) => (
             <div
               key={i}
-              className="p-4 bg-white dark:bg-gray-800 rounded shadow text-center hover:shadow-md transition"
+              className={`rounded-xl p-5 border shadow-sm transition hover:shadow-md ${
+                darkMode
+                  ? "bg-gray-800 border-gray-700"
+                  : "bg-white border-gray-200"
+              }`}
             >
-              <p className="text-sm">{item.title}</p>
-              <h2 className="text-xl font-semibold">{item.value}</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {item.title}
+              </p>
+              <h2 className="text-2xl font-bold mt-2">{item.value}</h2>
             </div>
           ))}
         </div>
 
-        {/* Chart Section */}
-        <div className="bg-white dark:bg-gray-800 rounded shadow p-4 mb-6">
-          <h2 className="text-lg font-semibold mb-4">Sales Overview</h2>
-          <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke={darkMode ? "#374151" : "#ddd"} />
-              <XAxis dataKey="month" stroke={darkMode ? "#ccc" : "#333"} />
-              <YAxis stroke={darkMode ? "#ccc" : "#333"} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: darkMode ? "#1f2937" : "#fff",
-                  color: darkMode ? "#fff" : "#000",
-                  borderRadius: "6px",
-                }}
-              />
-              <Line type="monotone" dataKey="sales" stroke="#3b82f6" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
+        {/* Overview Section */}
+        <div
+          className={`rounded-xl p-5 border shadow-sm ${
+            darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+          }`}
+        >
+          <h2 className="text-lg font-semibold mb-2">Overview</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Welcome back! Here’s a quick summary of your recent activity.
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-4 mt-4">
+            <div
+              className={`p-4 rounded-lg border ${
+                darkMode
+                  ? "border-gray-700 bg-gray-900"
+                  : "border-gray-200 bg-gray-50"
+              }`}
+            >
+              <h3 className="font-medium">New Signups</h3>
+              <p className="text-2xl font-bold mt-2">85</p>
+            </div>
+            <div
+              className={`p-4 rounded-lg border ${
+                darkMode
+                  ? "border-gray-700 bg-gray-900"
+                  : "border-gray-200 bg-gray-50"
+              }`}
+            >
+              <h3 className="font-medium">Monthly Sales</h3>
+              <p className="text-2xl font-bold mt-2">$4,230</p>
+            </div>
+            <div
+              className={`p-4 rounded-lg border ${
+                darkMode
+                  ? "border-gray-700 bg-gray-900"
+                  : "border-gray-200 bg-gray-50"
+              }`}
+            >
+              <h3 className="font-medium">Active Users</h3>
+              <p className="text-2xl font-bold mt-2">342</p>
+            </div>
+          </div>
         </div>
 
         {/* Orders Table */}
-        <div className="bg-white dark:bg-gray-800 rounded shadow p-4 overflow-x-auto">
+        <div
+          className={`rounded-xl p-5 border shadow-sm overflow-x-auto ${
+            darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+          }`}
+        >
           <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
           <table className="w-full text-sm text-left min-w-[500px]">
-            <thead className="bg-gray-100 dark:bg-gray-700">
+            <thead
+              className={`${
+                darkMode ? "bg-gray-700 text-gray-200" : "bg-gray-100"
+              }`}
+            >
               <tr>
                 <th className="p-3">ID</th>
                 <th className="p-3">Customer</th>
@@ -92,7 +117,14 @@ export default function Dashboard({ isSidebarOpen }) {
             </thead>
             <tbody>
               {orders.map((o) => (
-                <tr key={o.id} className="border-t dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                <tr
+                  key={o.id}
+                  className={`border-t transition ${
+                    darkMode
+                      ? "border-gray-700 hover:bg-gray-700"
+                      : "border-gray-200 hover:bg-gray-50"
+                  }`}
+                >
                   <td className="p-3">{o.id}</td>
                   <td className="p-3">{o.customer}</td>
                   <td className="p-3">{o.product}</td>

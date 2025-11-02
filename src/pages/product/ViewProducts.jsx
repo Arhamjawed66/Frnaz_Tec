@@ -1,14 +1,14 @@
 import React, { memo } from "react";
-import { useTheme } from "../contexts/ThemeContext"; // ✅ Import global theme
-import image1 from "../assets/productImages/headphone.jpg"
-import image2 from "../assets/productImages/smart-watch.avif"
-import image3 from "../assets/productImages/bluetooth-speaker .jpg"
-import image4 from "../assets/productImages/gaming-mouse.jpg"
-import image5 from "../assets/productImages/wireless-keyboard.jpg"
-import image6 from "../assets/productImages/action-camera.jpg"
-import image7 from "../assets/productImages/desk-lamp.jpg"
-import image8 from "../assets/productImages/drone-camera.jpg"
-import image9 from "../assets/productImages/vR-headset.jpg"
+import { useTheme } from "../../contexts/ThemeContext"; // ✅ Import global theme
+import image1 from "../../assets/productImages/headphone.jpg"
+import image2 from "../../assets/productImages/smart-watch.avif"
+import image3 from "../../assets/productImages/bluetooth-speaker .jpg"
+import image4 from "../../assets/productImages/gaming-mouse.jpg"
+import image5 from "../../assets/productImages/wireless-keyboard.jpg"
+import image6 from "../../assets/productImages/action-camera.jpg"
+import image7 from "../../assets/productImages/desk-lamp.jpg"
+import image8 from "../../assets/productImages/drone-camera.jpg"
+import image9 from "../../assets/productImages/vR-headset.jpg"
 
 
 function ProductCard({ p, darkMode }) {
