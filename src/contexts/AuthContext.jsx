@@ -33,6 +33,6 @@ export function AuthProvider({ children }) {
 }
 
 // Custom hook
-export function useAuth() {
+export const useAuth = () => {
   return useContext(AuthContext);
-}
+};

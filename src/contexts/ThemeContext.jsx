@@ -33,6 +33,6 @@ export function ThemeProvider({ children }) {
 }
 
 // 🌍 Custom hook for easy access
-export function useTheme() {
+export const useTheme = () => {
   return useContext(ThemeContext);
-}
+};

@@ -14,8 +14,6 @@ import { useTheme } from "../contexts/ThemeContext";
 
 export default function Header({ isSidebarOpen, setIsSidebarOpen }) {
   const [accountOpen, setAccountOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const dropdownRef = useRef(null);
   const { darkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
