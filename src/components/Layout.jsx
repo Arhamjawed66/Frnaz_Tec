@@ -136,7 +136,8 @@ export default function Layout() {
               links={[
                 { to: "/store/create", label: " name" },
                 { to: "/store/update", label: "group" },
-                { to: "/store/view", label: "View Store" },
+                { to: "/store/notifiction", label: "Notification" },
+                { to: "/store/reminder", label: "Reminder" },
               ]}
             />
             <Dropdown
@@ -175,9 +176,8 @@ export default function Layout() {
 
         {/* 🧱 Right-Side Content */}
         <main
-          className={`flex-1 h-[calc(100vh-4rem)] overflow-y-auto 
-          p-4 sm:p-6 md:p-8 transition-all duration-300 ease-in-out 
-          ${isSidebarOpen ? "md:ml-64" : "md:ml-20"}`}
+          className={`flex-1 h-[calc(100vh-4rem)] overflow-y-auto
+          p-4 sm:p-6 md:p-8 transition-all duration-300 ease-in-out`}
         >
           {/* 👇 This is where page content will render */}
           <Outlet />

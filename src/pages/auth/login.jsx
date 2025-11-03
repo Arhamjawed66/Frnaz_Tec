@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "../../contexts/ThemeContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 // 🧼 Simple sanitization
@@ -9,6 +10,7 @@ const sanitizeInput = (value) =>
 
 export default function LoginForm() {
   const { darkMode } = useTheme();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -17,12 +19,6 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   // ✅ Redirect if already logged in
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      navigate("/dashboard", { replace: true });
-    }
-  }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +28,7 @@ export default function LoginForm() {
 
     if (cleanUsername === "grow@franzsns.com" && cleanPassword === "12345") {
       const userData = { role: "admin", name: "Admin" };
-      localStorage.setItem("user", JSON.stringify(userData));
+      login(userData); // Use context login
 
       // ✅ Redirect immediately after login
       navigate("/dashboard", { replace: true });
@@ -96,7 +92,7 @@ export default function LoginForm() {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(sanitizeInput(e.target.value))}
-                placeholder="admin123@gmail.com"
+                placeholder="grow@franzsns.com"
                 className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                   darkMode
                     ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
@@ -152,8 +148,7 @@ export default function LoginForm() {
                 darkMode ? "text-gray-300" : "text-gray-700"
               }`}
             >
-              <p>Email: <span className="text-blue-500">grow@franzsns.com</span></p>
-              <p>Password: <span className="text-blue-500">12345</span></p>
+              <p>Warning: <span className="text-blue-500">Do not sell or share your login detail</span></p>
             </div>
 
             {/* Signup link */}
