@@ -136,7 +136,7 @@ export default function Layout() {
               links={[
                 { to: "/store/create", label: " name" },
                 { to: "/store/update", label: "group" },
-                { to: "/store/notifiction", label: "Notification" },
+                { to: "/store/notification", label: "Notification" },
                 { to: "/store/reminder", label: "Reminder" },
               ]}
             />

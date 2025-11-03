@@ -58,7 +58,7 @@ export default function App() {
             <Route path="/store/update" element={<UpdateStore />} />
             <Route path="/store/view" element={<ViewStore />} />
             <Route path="/store/reminder" element={ <Reminder/>} />
-            <Route path="/store/notifiction" element={<Notification />} />
+            <Route path="/store/notification" element={<Notification />} />
 
 
             <Route path="/category/update" element={<Update_Category />} />
