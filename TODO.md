@@ -1,6 +1,0 @@
-- [x] Fix unused variables in src/components/Navbar.jsx (mobileMenuOpen, setMobileMenuOpen, searchOpen, setSearchOpen)
-- [x] Fix fast refresh issues in src/contexts/AuthContext.jsx, src/contexts/ThemeContext.jsx, src/pages/auth/contexts/AuthContext.jsx by moving non-component exports
-- [x] Remove unused useEffect import in src/pages/auth/login.jsx
-- [ ] Run npm run lint again to verify fixes
-- [ ] Run npm run dev to check for runtime issues
-- [ ] Test application functionality if needed

@@ -118,7 +118,7 @@ export default function Layout() {
               {isSidebarOpen ? (
                 <>
                   <FaTimes className="text-lg" />
-                  <span className="hidden md:inline text-sm font-medium">Close</span>
+                  <span className="hidden md:inline text-sm font-medium">Hide</span>
                 </>
               ) : (
                 <FaBars className="text-lg" />

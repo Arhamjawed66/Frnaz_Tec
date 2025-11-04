@@ -62,18 +62,18 @@ export default function Header({ isSidebarOpen, setIsSidebarOpen }) {
           </Link>
 
           {/* Search */}
-          <div className="hidden md:flex relative">
+          <div className="hidden md:flex relative ml-30">
             <input
               type="text"
               placeholder="Search..."
-              className={`border rounded-full pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:ring-2 
+              className={`border rounded-full pl-50 pr-4 py-1.5 text-sm focus:outline-none focus:ring-2 
               ${
                 darkMode
                   ? "bg-gray-800 border-gray-700 text-white focus:ring-blue-400"
                   : "bg-gray-200 border-gray-300 text-black focus:ring-white"
               }`}
             />
-            <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FaSearch className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
           </div>
         </div>
 

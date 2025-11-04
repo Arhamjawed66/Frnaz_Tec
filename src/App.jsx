@@ -7,6 +7,8 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Dashboard from "./pages/Dashboard";
 import CreateStore from "./pages/store/CreateStore";
 import UpdateStore from "./pages/store/UpdateStore";
+import Reminder from "./pages/store/Reminder";
+import Notification from "./pages/store/Notification";
 import ViewStore from "./pages/store/ViewStore";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
@@ -17,8 +19,6 @@ import Product from "./pages/product/ViewProducts";
 import Update_Category from "./pages/category/update_catagory";
 import Create_Category from "./pages/category/Create_Category";
 import View_Category from "./pages/category/View_Category";
-import Reminder from "./pages/store/Reminder";
-import Notification from "./pages/store/Notification";
 
 
 /* 🧩 Components */

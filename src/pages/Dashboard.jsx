@@ -168,7 +168,7 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto mt-10 space-y-8">
         {/* ✅ Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold">Inventory</h1>
+          <h1 className="text-3xl font-semibold">Store Main</h1>
           <div className="flex items-center space-x-3">
             <button
               className={`p-2 rounded-full shadow transition ${
@@ -201,7 +201,7 @@ export default function Dashboard() {
                 : "bg-white border-blue-100"
             }`}
           >
-            <h2 className="text-lg font-semibold mb-3">Stock Overview</h2>
+            <h2 className="text-lg font-semibold mb-3">Sales for the Week</h2>
             <div className="flex items-end justify-between h-40">
               {[40, 70, 50, 90].map((height, i) => (
                 <div
@@ -219,7 +219,7 @@ export default function Dashboard() {
               }`}
             >
               <p>
-                In Stock Value{" "}
+                In Sales value{" "}
                 <span
                   className={`font-semibold ${
                     darkMode ? "text-gray-100" : "text-gray-800"
@@ -254,11 +254,12 @@ export default function Dashboard() {
         </div>
 
         {/* ✅ Right-side Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {[
-            { title: "Suppliers", value: "5" },
-            { title: "Delivery", value: "2 orders pending" },
-            { title: "Payments", value: "$2,150", sub: "Due Payments" },
+            { title: "Todays Sale", value: "$5,000" },
+            { title: "Low in stock", value: "12 Products" },
+            { title: "Due Payments", value: "$2,150" },
+            { title: "Pending Delivery", value: "3 Orders" },
           ].map((card, i) => (
             <div
               key={i}
@@ -271,11 +272,11 @@ export default function Dashboard() {
               <h3
                 className={`${
                   darkMode ? "text-gray-400" : "text-gray-500"
-                } text-sm`}
+                } text-lg font-bold`}
               >
                 {card.title}
               </h3>
-              <p className="text-3xl font-bold mt-1">{card.value}</p>
+              <p className="text-md font-bold mt-1">{card.value}</p>
               {card.sub && (
                 <p
                   className={`text-sm ${
