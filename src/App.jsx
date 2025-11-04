@@ -7,8 +7,6 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Dashboard from "./pages/Dashboard";
 import CreateStore from "./pages/store/CreateStore";
 import UpdateStore from "./pages/store/UpdateStore";
-import Reminder from "./pages/store/Reminder.jsx";
-import Notification from "./pages/store/Notification.jsx";
 import ViewStore from "./pages/store/ViewStore";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
@@ -23,6 +21,8 @@ import View_Category from "./pages/category/View_Category";
 
 /* 🧩 Components */
 import Layout from "./components/Layout"; // ✅ Sidebar + Header + Outlet layout
+import Notification from "./pages/store/notification";
+import Reminder from "./pages/store/Reminder";
 
 /* 🔒 Protected Route */
 function ProtectedRoute({ children }) {
@@ -57,8 +57,8 @@ export default function App() {
             <Route path="/store/create" element={<CreateStore />} />
             <Route path="/store/update" element={<UpdateStore />} />
             <Route path="/store/view" element={<ViewStore />} />
-            <Route path="/store/reminder" element={ <Reminder/>} />
-            <Route path="/store/notification" element={<Notification />} />
+            <Route path="/store/reminder" element={ <Reminder />} />
+            <Route path="/store/notification" element={<Notification/>} />
 
 
             <Route path="/category/update" element={<Update_Category />} />
