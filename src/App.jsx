@@ -8,8 +8,6 @@ import Dashboard from "./pages/Dashboard";
 import CreateStore from "./pages/store/CreateStore";
 import UpdateStore from "./pages/store/UpdateStore";
 import ViewStore from "./pages/store/ViewStore";
-import Users from "./pages/Users";
-import Settings from "./pages/Settings";
 import Orders from "./pages/Orders";
 import LoginFrom from "./pages/auth/login";
 import RegisterFrom from "./pages/auth/register";
@@ -23,6 +21,11 @@ import View_Category from "./pages/category/View_Category";
 import Layout from "./components/Layout"; // ✅ Sidebar + Header + Outlet layout
 import Notification from "./pages/store/notification";
 import Reminder from "./pages/store/Reminder";
+import Theme from "./pages/setting/Theme";
+import User from "./pages/setting/Users";
+import Info from "./pages/supplier/info";
+import TandC from "./pages/supplier/tandc";
+
 
 /* 🔒 Protected Route */
 function ProtectedRoute({ children }) {
@@ -67,8 +70,13 @@ export default function App() {
 
 
             <Route path="/product/view" element={<Product/>} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/settings" element={<Settings />} />
+
+            <Route path="/supplier/info" element={<Info />} />
+            <Route path="/supplier/tandc" element={< TandC />} />
+
+
+            <Route path="/setting/theme" element={<Theme />} />
+            <Route path="/setting/users" element={<User />} />
           </Route>
           {/* Default redirect */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

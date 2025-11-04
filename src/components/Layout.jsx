@@ -5,12 +5,12 @@ import {
   FaStore,
   FaTruck,
   FaBox,
-  FaUtensils,
   FaChevronDown,
   FaChevronRight,
   FaBars,
   FaTimes,
   FaListAlt,
+  FaCartPlus,
 } from "react-icons/fa";
 import { useTheme } from "../contexts/ThemeContext";
 import Header from "./Navbar";
@@ -35,15 +35,14 @@ export default function Layout() {
       <Link
         to={to}
         onClick={handleLinkClick}
-        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ${
-          location.pathname === to
+        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ${location.pathname === to
             ? darkMode
               ? "bg-gray-800 text-white"
               : "bg-blue-700 text-white"
             : darkMode
-            ? "hover:bg-gray-800 text-gray-200"
-            : "hover:bg-blue-500/70 text-white"
-        }`}
+              ? "hover:bg-gray-800 text-gray-200"
+              : "hover:bg-blue-500/70 text-white"
+          }`}
       >
         <span className="text-lg">{icon}</span>
         {isSidebarOpen && <span className="text-sm font-medium">{label}</span>}
@@ -62,9 +61,8 @@ export default function Layout() {
     <div>
       <button
         onClick={() => toggleDropdown(menuKey)}
-        className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200 ${
-          darkMode ? "hover:bg-gray-800" : "hover:bg-blue-500/70"
-        }`}
+        className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200 ${darkMode ? "hover:bg-gray-800" : "hover:bg-blue-500/70"
+          }`}
       >
         <span className="flex items-center gap-3">
           <span className="text-lg">{icon}</span>
@@ -160,9 +158,33 @@ export default function Layout() {
                 { to: "/product/view", label: "View invemtory" },
               ]}
             />
-            <NavItem to="/orders" icon={<FaTruck />} label="Orders" />
-            <NavItem to="/users" icon={<FaUtensils />} label="Users" />
-            <NavItem to="/settings" icon={<FaStore />} label="Settings" />
+            <Dropdown
+              icon={<FaStore />}
+              label="Setting"
+              menuKey="setting"
+              links={[
+                { to: "/setting/theme", label: "Theme" },
+                { to: "/setting/users", label: "User" },
+              ]}
+            />
+            <Dropdown
+              icon={<FaTruck />}
+              label="Supplier"
+              menuKey="supplier"
+              links={[
+                { to: "/supplier/info", label: "Info" },
+                { to: "/supplier/tandc", label: "T & C" },
+              ]}
+            />
+
+
+
+            <NavItem to="/orders" icon={<FaCartPlus/>} label="Orders" />
+
+
+
+
+
           </nav>
         </aside>
 
