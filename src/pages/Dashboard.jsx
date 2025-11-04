@@ -168,7 +168,7 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto mt-10 space-y-8">
         {/* ✅ Header */}
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-semibold">Store Main</h1>
+          <h1 className="text-3xl font-semibold">Sunshine Groceries</h1>
           <div className="flex items-center space-x-3">
             <button
               className={`p-2 rounded-full shadow transition ${
