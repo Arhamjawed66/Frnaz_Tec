@@ -29,7 +29,7 @@ import Add from "./pages/payment/add";
 import Modify from "./pages/payment/modify";
 import Call from "./pages/customer_care/Call";
 import Email from "./pages/customer_care/Email";
-import WhatUp from "./pages/customer_care/WhatsApp";
+import WhatUp from "./pages/customer_care/whatsapp";
 
 
 /* 🔒 Protected Route */
