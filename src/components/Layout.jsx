@@ -11,6 +11,8 @@ import {
   FaTimes,
   FaListAlt,
   FaCartPlus,
+  FaCreditCard,
+  FaHeadset,
 } from "react-icons/fa";
 import { useTheme } from "../contexts/ThemeContext";
 import Header from "./Navbar";
@@ -35,19 +37,21 @@ export default function Layout() {
       <Link
         to={to}
         onClick={handleLinkClick}
-        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ${location.pathname === to
+        className={`flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ${
+          location.pathname === to
             ? darkMode
               ? "bg-gray-800 text-white"
               : "bg-blue-700 text-white"
             : darkMode
-              ? "hover:bg-gray-800 text-gray-200"
-              : "hover:bg-blue-500/70 text-white"
-          }`}
+            ? "hover:bg-gray-800 text-gray-200"
+            : "hover:bg-blue-500/70 text-white"
+        }`}
       >
         <span className="text-lg">{icon}</span>
         {isSidebarOpen && <span className="text-sm font-medium">{label}</span>}
       </Link>
 
+      {/* Tooltip Show Only When Sidebar Closed */}
       {!isSidebarOpen && (
         <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 text-xs bg-blue-600 text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition">
           {label}
@@ -56,18 +60,20 @@ export default function Layout() {
     </div>
   );
 
-  // ✅ Dropdown menu
+  // ✅ Dropdown Nav Item Component
   const Dropdown = ({ icon, label, menuKey, links }) => (
     <div>
       <button
         onClick={() => toggleDropdown(menuKey)}
-        className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200 ${darkMode ? "hover:bg-gray-800" : "hover:bg-blue-500/70"
-          }`}
+        className={`w-full flex items-center justify-between px-3 py-2 rounded-md transition-all duration-200 ${
+          darkMode ? "hover:bg-gray-800" : "hover:bg-blue-500/70"
+        }`}
       >
         <span className="flex items-center gap-3">
           <span className="text-lg">{icon}</span>
           {isSidebarOpen && <span className="text-sm font-medium">{label}</span>}
         </span>
+
         {isSidebarOpen &&
           (openDropdown === menuKey ? (
             <FaChevronDown className="text-xs" />
@@ -95,19 +101,19 @@ export default function Layout() {
 
   return (
     <div className="h-screen flex flex-col bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-hidden">
-      {/* ✅ Header */}
+      {/* ✅ Header Component */}
       <Header isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
 
       <div className="flex flex-1 pt-16 relative overflow-hidden">
-        {/* 🧭 Sidebar */}
+        {/* ✅ Sidebar */}
         <aside
           className={`fixed inset-y-0 left-0 z-40 shadow-lg transition-all duration-300 ease-in-out
-          ${darkMode ? "bg-gray-900 text-white" : "bg-blue-600 text-white"} 
+          ${darkMode ? "bg-gray-900 text-white" : "bg-blue-600 text-white"}
           ${isSidebarOpen ? "w-64" : "w-16"}
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
           md:relative md:translate-x-0 md:flex-shrink-0`}
         >
-          {/* Header inside sidebar */}
+          {/* Sidebar Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/20 flex-shrink-0">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -124,9 +130,14 @@ export default function Layout() {
             </button>
           </div>
 
-          {/* Nav Links */}
-          <nav className="flex-1 px-2 py-4 space-y-2 overflow-hidden">
+          {/* ✅ Nav section with scroll logic */}
+          <nav
+            className={`flex-1 px-2 py-4 space-y-2 transition-all duration-300 ${
+              isSidebarOpen ? "overflow-y-auto" : "overflow-hidden"
+            }`}
+          >
             <NavItem to="/dashboard" icon={<FaHome />} label="Dashboard" />
+
             <Dropdown
               icon={<FaStore />}
               label="Store"
@@ -138,6 +149,7 @@ export default function Layout() {
                 { to: "/store/reminder", label: "Reminder" },
               ]}
             />
+
             <Dropdown
               icon={<FaListAlt />}
               label="Category"
@@ -148,6 +160,7 @@ export default function Layout() {
                 { to: "/category/view", label: "View Category" },
               ]}
             />
+
             <Dropdown
               icon={<FaBox />}
               label="Inventory"
@@ -158,6 +171,7 @@ export default function Layout() {
                 { to: "/product/view", label: "View invemtory" },
               ]}
             />
+
             <Dropdown
               icon={<FaStore />}
               label="Setting"
@@ -167,6 +181,7 @@ export default function Layout() {
                 { to: "/setting/users", label: "User" },
               ]}
             />
+
             <Dropdown
               icon={<FaTruck />}
               label="Supplier"
@@ -177,18 +192,32 @@ export default function Layout() {
               ]}
             />
 
+            <Dropdown
+              icon={<FaCreditCard />}
+              label="Payments"
+              menuKey="payments"
+              links={[
+                { to: "/payment/add", label: "Add" },
+                { to: "/payment/modify", label: "Modify" },
+              ]}
+            />
 
+            <Dropdown
+              icon={<FaHeadset />}
+              label="Customer Care"
+              menuKey="customer care"
+              links={[
+                { to: "/customer_care/call", label: "Call" },
+                { to: "/customer_care/email", label: "Email" },
+                { to: "/customer_care/whatsapp", label: "WhatsApp" },
+              ]}
+            />
 
-            <NavItem to="/orders" icon={<FaCartPlus/>} label="Orders" />
-
-
-
-
-
+            <NavItem to="/orders" icon={<FaCartPlus />} label="Orders" />
           </nav>
         </aside>
 
-        {/* 📱 Overlay for Mobile */}
+        {/* Overlay for Mobile (when sidebar open) */}
         {isSidebarOpen && (
           <div
             className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
@@ -196,12 +225,10 @@ export default function Layout() {
           ></div>
         )}
 
-        {/* 🧱 Right-Side Content */}
+        {/* ✅ Main Content */}
         <main
-          className={`flex-1 h-[calc(100vh-4rem)] overflow-y-auto
-          p-4 sm:p-6 md:p-8 transition-all duration-300 ease-in-out`}
+          className={`flex-1 h-[calc(100vh-4rem)] overflow-y-auto p-4 sm:p-6 md:p-8 transition-all duration-300`}
         >
-          {/* 👇 This is where page content will render */}
           <Outlet />
         </main>
       </div>

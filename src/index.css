@@ -12,3 +12,7 @@
 .animate-scroll-slow {
   animation: scroll-slow 30s linear infinite;
 }
+
+html {
+  scroll-behavior: smooth;
+}

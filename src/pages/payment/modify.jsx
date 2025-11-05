@@ -1,6 +1,6 @@
 import React from 'react'
 
-const modify = () => {
+const Modify = () => {
   return (
     <div>
       <h1>modify setup</h1>
@@ -8,4 +8,4 @@ const modify = () => {
   )
 }
 
-export default modify
+export default Modify

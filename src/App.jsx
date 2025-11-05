@@ -25,6 +25,11 @@ import Theme from "./pages/setting/Theme";
 import User from "./pages/setting/Users";
 import Info from "./pages/supplier/info";
 import TandC from "./pages/supplier/tandc";
+import Add from "./pages/payment/add";
+import Modify from "./pages/payment/modify";
+import Call from "./pages/customer_care/Call";
+import Email from "./pages/customer_care/Email";
+import Whatsapp from "./pages/customer_care/whatsapp";
 
 
 /* 🔒 Protected Route */
@@ -72,7 +77,14 @@ export default function App() {
             <Route path="/product/view" element={<Product/>} />
 
             <Route path="/supplier/info" element={<Info />} />
-            <Route path="/supplier/tandc" element={< TandC />} />
+            <Route path="/supplier/tandc" element={<TandC />} />
+
+            <Route path="/payment/add" element={<Add />} />
+            <Route path="/payment/modify" element={<Modify />} />
+
+            <Route path="/customer_care/call" element={<Call />} />
+            <Route path="/customer_care/email" element={<Email />} />
+            <Route path="/customer_care/whatsapp" element={<Whatsapp />} />
 
 
             <Route path="/setting/theme" element={<Theme />} />

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const add = () => {
+const Add = () => {
   return (
     <div>
       <h1>add page</h1>
@@ -8,4 +8,4 @@ const add = () => {
   )
 }
 
-export default add
+export default Add
