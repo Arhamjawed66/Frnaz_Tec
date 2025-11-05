@@ -14,7 +14,7 @@ export default function Orders() {
       customer: "Sara Ahmed",
       date: "2025-10-19",
       total: "$320",
-      status: "Pending",
+      status: "Panding",
     },
     {
       id: "ORD-1003",
