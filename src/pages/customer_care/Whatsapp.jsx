@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Whatupp = () => {
+const WhatUp = () => {
   return (
     <div>
       <h1>its WhatsApp demo</h1>
@@ -8,4 +8,4 @@ const Whatupp = () => {
   )
 }
 
-export default Whatupp
+export default WhatUp

@@ -29,7 +29,7 @@ import Add from "./pages/payment/add";
 import Modify from "./pages/payment/modify";
 import Call from "./pages/customer_care/Call";
 import Email from "./pages/customer_care/Email";
-import Whatupp from "./pages/customer_care/whatsapp";
+import WhatUp from "./pages/customer_care/WhatsApp";
 
 
 /* 🔒 Protected Route */
@@ -84,7 +84,7 @@ export default function App() {
 
             <Route path="/customer_care/call" element={<Call />} />
             <Route path="/customer_care/email" element={<Email />} />
-            <Route path="/customer_care/whatsapp" element={<Whatupp />} />
+            <Route path="/customer_care/whatsapp" element={<WhatUp />} />
 
 
             <Route path="/setting/theme" element={<Theme />} />
