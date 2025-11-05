@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Whatsapp = () => {
+const Whatupp = () => {
   return (
     <div>
       <h1>its WhatsApp demo</h1>
@@ -8,4 +8,4 @@ const Whatsapp = () => {
   )
 }
 
-export default Whatsapp
+export default Whatupp
