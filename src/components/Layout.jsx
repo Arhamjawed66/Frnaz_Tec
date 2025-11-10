@@ -202,16 +202,7 @@ export default function Layout() {
               ]}
             />
 
-            <Dropdown
-              icon={<FaHeadset />}
-              label="Customer Care"
-              menuKey="customer care"
-              links={[
-                { to: "/customer_care/call", label: "Call" },
-                { to: "/customer_care/email", label: "Email" },
-                { to: "/customer_care/whatsapp", label: "WhatsApp" },
-              ]}
-            />
+            <NavItem to="/customercare" icon={<FaHeadset />} label="Customer Care" />
 
             <NavItem to="/orders" icon={<FaCartPlus />} label="Orders" />
           </nav>
