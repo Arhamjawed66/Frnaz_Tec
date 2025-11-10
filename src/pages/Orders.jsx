@@ -7,7 +7,7 @@ export default function Orders() {
       customer: "Ali Khan",
       date: "2025-10-18",
       total: "$245",
-      status: "Deliver",
+      status: "Delivered",
     },
     {
       id: "ORD-1002",
@@ -32,13 +32,14 @@ export default function Orders() {
   };
 
   return (
-    <div className="ml-64 p-8 min-h-screen bg-gray-50 dark:bg-gray-900 transition">
+    <div className=" p-2 min-h-screen bg-gray-50 dark:bg-gray-900 transition">
       <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
         📦 Orders
       </h1>
 
       {/* Orders Table */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-x-auto">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-blue-600 dark:bg-blue-700 text-white">
             <tr>
@@ -95,6 +96,7 @@ export default function Orders() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
